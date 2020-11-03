@@ -14,7 +14,7 @@ class iliad_goal_manager(object):
 		self.orders_file = rospy.get_param('~orders_file',"../config/orkla_orders.xml")
 		self.orders_times_file = rospy.get_param('~orders_times_file',"../config/orkla_orders_times.txt")
 		self.items_locations_file = rospy.get_param('~items_locations_file',"../config/orkla_item_locations.json")
-		self.locations_coordinates_file = rospy.get_param('~locations_file',"../config/orkla_location_coordinates.json")
+		self.locations_coordinates_file = rospy.get_param('~locations_coordinates_file',"../config/orkla_location_coordinates.json")
 
 		# ini variables
 		self.available_list_updated = 0
@@ -147,10 +147,10 @@ class iliad_goal_manager(object):
 		items_locations_label.grid(      row=2,column=0,pady=3,padx=5,sticky="e")
 		locations_coordinates_label.grid(row=3,column=0,pady=3,padx=5,sticky="e")
 
-		orders_text = tk.Label(self.files_frame, text = self.orders_file,font=("Arial Bold", 10),bg="white",width=70)
-		orders_times_text = tk.Label(self.files_frame, text = self.orders_times_file,font=("Arial Bold", 10),bg="white",width=70)
-		items_locations_text = tk.Label(self.files_frame,       text = self.items_locations_file,font=("Arial Bold", 10),bg="white",width=70)
-		locations_coordinates_text = tk.Label(self.files_frame, text = self.locations_coordinates_file,font=("Arial Bold", 10),bg="white",width=70)
+		orders_text = tk.Label(self.files_frame, text = self.orders_file,font=("Arial Bold", 10),bg="white",width=100)
+		orders_times_text = tk.Label(self.files_frame, text = self.orders_times_file,font=("Arial Bold", 10),bg="white",width=100)
+		items_locations_text = tk.Label(self.files_frame,       text = self.items_locations_file,font=("Arial Bold", 10),bg="white",width=100)
+		locations_coordinates_text = tk.Label(self.files_frame, text = self.locations_coordinates_file,font=("Arial Bold", 10),bg="white",width=100)
 		orders_text.grid(row=0,column=1,sticky="w")
 		orders_times_text.grid(row=1,column=1,sticky="w")
 		items_locations_text.grid(row=2,column=1,sticky="w")
@@ -212,8 +212,8 @@ class iliad_goal_manager(object):
 		self.mission_list = tk.Listbox(self.robots_frame,width=7,font=("Arial Bold", 10),height=4,justify="center")
 		self.navigation_list = tk.Listbox(self.robots_frame,width=10,font=("Arial Bold", 10),height=4,justify="center")
 		self.wait_list = tk.Listbox(self.robots_frame,width=5,font=("Arial Bold", 10),height=4,justify="center")
-		self.goal_list = tk.Listbox(self.robots_frame,width=8,font=("Arial Bold", 10),height=4,justify="center")
-		self.action_list = tk.Listbox(self.robots_frame,width=20,font=("Arial Bold", 10),height=4,justify="center")
+		self.goal_list = tk.Listbox(self.robots_frame,width=12,font=("Arial Bold", 10),height=4,justify="center")
+		self.action_list = tk.Listbox(self.robots_frame,width=30,font=("Arial Bold", 10),height=4,justify="center")
 		self.active_list.grid(row=1,column=0,padx=5,pady=5)
 		self.status_list.grid(row=1,column=1,padx=5,pady=5)
 		self.mission_list.grid(row=1,column=2,padx=5,pady=5)
@@ -436,8 +436,11 @@ class iliad_goal_manager(object):
 				self.status_list.insert(tk.END,self.active_robots[robot]["status"])
 				self.mission_list.insert(tk.END,self.active_robots[robot]["mission"])
 				self.navigation_list.insert(tk.END,self.active_robots[robot]["navigation"])
-				self.goal_list.insert(tk.END,self.active_robots[robot]["goal"])
-	
+				if self.active_robots[robot]["mission"] == "-":
+					self.goal_list.insert(tk.END,str(self.active_robots[robot]["goal"]))
+				else:
+					self.goal_list.insert(tk.END,str(self.active_robots[robot]["goal"])+"/"+str(len(self.missions[int(self.active_robots[robot]["mission"])])))
+
 				if self.active_robots[robot]["mission"] != "-" and self.active_robots[robot]["goal"] != "-":
 					self.action_list.insert(tk.END,self.missions[self.active_robots[robot]["mission"]][self.active_robots[robot]["goal"]])
 				else:
