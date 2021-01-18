@@ -104,8 +104,8 @@ class iliad_goal_manager(object):
 
 			print "\n",self.missions
 			# Exmple of missions variable structure with 4 simple orders
-			self.test_missions = [["pick:soup","go:home"], ["pick:soup","go:home"]]
-			print "\n",self.test_missions
+			#self.test_missions = [["pick:soup","go:home"], ["pick:soup","go:home"]]
+			#print "\n",self.test_missions
 
 
 			self.parse_orders_times_file()
@@ -410,7 +410,7 @@ class iliad_goal_manager(object):
 				if self.active_robots[robot]["status"] == "FREE":
 					#send an exploration to the free robot and set variable as exploration ongoing
 					self.active_robots[robot]["action"] = "EXPLORING"
-					self.active_robots[robot]["wait"] = rospy.get_time() + 10 #after 120 sec the exploring tag is removed
+					self.active_robots[robot]["wait"] = rospy.get_time() + 150 #after 120 sec the exploring tag is removed
 
 					if robot == "robot1":
 						self.robot1_goal_pub.publish(exploration_goal_msg)
